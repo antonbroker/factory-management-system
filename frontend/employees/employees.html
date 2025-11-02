@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="employees.css">
+    <title>Employees</title>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <span id="username"></span>
+            <button id="logout-button"> LogOut </button>
+        </div>
+    </header>
+    
+    <main>
+        <h2>Employees</h2>
+        <p id="error-message"></p>
+
+        <!-- Add new employee button -->
+        <button id="add-employee-button">Add Employee</button>
+
+        <!-- Filter by department -->
+        <label for="department-filter">Filter by Department:</label>
+        <select id="department-filter">
+            <option value="all">All Departments</option>
+            <!-- Departments will be loaded here -->
+        </select>
+
+        <!-- Employees table -->
+        <table id="employees-table">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Department</th>
+                    <th>Shifts</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Employees will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </main>
+
+    <script src="employees.js"></script>
+</body>
+</html>

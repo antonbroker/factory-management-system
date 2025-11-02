@@ -48,4 +48,6 @@ const schema = new mongoose.Schema({
 }
 )
 
-module.exports = mongoose.model('Employee', schema, 'employees');
+const Employee = mongoose.model('Employee', schema, 'employees')
+
+module.exports = Employee

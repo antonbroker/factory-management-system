@@ -15,13 +15,15 @@ const authenticateUser = async (username, email) => {
             return null
         }
         
-        console.log("User was found: ", user.username);
+        console.log("Username: ", user.username)
+        console.log("User full name: ", user.name)
 
         // get token JWT
         const token = jwt.sign({
             id: user.id, 
             username: user.username, 
-            email: user.email 
+            email: user.email,
+            fullName: user.name
         },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
@@ -30,7 +32,7 @@ const authenticateUser = async (username, email) => {
         // init actions of current user
         await initUserActions(user.id)
 
-        console.log(token)
+        // console.log(token)
         return token
 
     } catch (error) {
