@@ -1,6 +1,8 @@
-const axios = require('axios');
-const jwt = require('jsonwebtoken');
-const { initUserActions } = require('./actionsService');
+const axios = require('axios')
+const jwt = require('jsonwebtoken')
+const { initUserActions } = require('./actionsService')
+
+const usersService = require("../services/usersService")
 
 // Authorization (valid user, JWT)
 const authenticateUser = async (username, email) => {
@@ -8,6 +10,7 @@ const authenticateUser = async (username, email) => {
     try {
         const { data : users} = await axios.get('https://jsonplaceholder.typicode.com/users')
     
+        // Check 
         const user = users.find(user => (user.username === username && user.email === email))
 
         if (!user) {
@@ -15,8 +18,11 @@ const authenticateUser = async (username, email) => {
             return null
         }
         
+        await ensureUserExists(user)
+
         console.log("Username: ", user.username)
         console.log("User full name: ", user.name)
+
 
         // get token JWT
         const token = jwt.sign({
@@ -30,7 +36,7 @@ const authenticateUser = async (username, email) => {
         )
 
         // init actions of current user
-        await initUserActions(user.id)
+        // await initUserActions(user.id)
 
         // console.log(token)
         return token
@@ -42,4 +48,9 @@ const authenticateUser = async (username, email) => {
 
 }
 
+
+async function ensureUserExists(user) {
+    const existed = await usersService.checkUserExists(user)
+    return existed
+}
 module.exports = { authenticateUser }

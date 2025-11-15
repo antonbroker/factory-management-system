@@ -1,4 +1,6 @@
+const mongoose = require('mongoose')
 const employeesRepo = require('../repositories/employeesRepo')
+const Shift = require('../models/shiftModel')
 
 /* CRUD operations*/
 // Get all employees
@@ -6,10 +8,9 @@ const getAllEmployees = async () => {
     try {
         return await employeesRepo.getAllEmployees()
 
-        // ....
     } catch (err) {
-        console.error("Error in getAllEmployees Service:", err.message);
-        throw err; // error to controller 
+        console.error("Error in getAllEmployees Service:", err.message)
+        throw err // error to controller 
     }
     
 }
@@ -19,10 +20,9 @@ const getEmployeeById = async (id) => {
     try {
         return await employeesRepo.getEmployeeById(id)
 
-        // ....
     } catch (err) {
-        console.error("Error in getEmployeeById Service:", err.message);
-        throw err; // error to controller
+        console.error("Error in getEmployeeById Service:", err.message)
+        throw err // error to controller
     }
 }
 
@@ -30,9 +30,10 @@ const getEmployeeById = async (id) => {
 const addEmployee = async (obj) => {
     try {
         return await employeesRepo.addEmployee(obj)
+
     } catch (err) {
-        console.error("Error in addEmployee Service:", err.message);
-        throw err; // error to controller 
+        console.error("Error in addEmployee Service:", err.message)
+        throw err // error to controller 
     }
 }
 
@@ -40,19 +41,34 @@ const addEmployee = async (obj) => {
 const updateEmployee = async (id, obj) => {
     try {
         return await employeesRepo.updateEmployee(id, obj)
+
     } catch (err) {
-        console.error("Error in updateEmployee Service:", err.message);
-        throw err; // error to controller 
+        console.error("Error in updateEmployee Service:", err.message)
+        throw err // error to controller 
     }
 }
 
 // Delete employee
 const deleteEmployee = async (id) => {
     try {
-        return await employeesRepo.deleteEmployee(id)
+        const deletedEmployee = await employeesRepo.deleteEmployee(id)
+
+        if (!deletedEmployee) {
+            console.log("Employee not found")
+            return null
+        }
+       
+        // delete employee from all his shifts
+        await Shift.updateMany(
+            { employee: id },
+            { $pull: { employees: id }}
+        )
+
+        return deletedEmployee
+
     } catch (err) {
-        console.error("Error in deleteEmployee Service:", err.message);
-        throw err; // error to controller 
+        console.error("Error in deleteEmployee Service:", err.message)
+        throw err // error to controller 
     }
 }
 

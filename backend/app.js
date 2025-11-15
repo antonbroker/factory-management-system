@@ -11,16 +11,23 @@ const loginRouter = require('./routers/loginRouter');
 const employeesRouter = require('./routers/employeesRouter')
 const departmentsRouter = require('./routers/departmentsRouter')
 const shiftsRouter = require('./routers/shiftsRouter')
+const usersRouter = require('./routers/usersRouter')
+const useAIRouter = require('./routers/useAIRouter')
+
+// Middleware
+const { checkUserActions } = require('./middlewares/checkUserActions')
 
 app.use(cors())
 app.use(express.json())
 
 // http://localhost:3000/
+// Routes
 app.use('/login', loginRouter)
-app.use('/employees', employeesRouter)
-app.use('/departments', departmentsRouter)
-app.use('/shifts', shiftsRouter)
-
+app.use('/employees', checkUserActions, employeesRouter)
+app.use('/departments', checkUserActions, departmentsRouter)
+app.use('/shifts', checkUserActions, shiftsRouter)
+app.use('/users', usersRouter)
+app.use('/useAI', checkUserActions, useAIRouter)
 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)

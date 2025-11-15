@@ -33,12 +33,31 @@ const addShift = async (obj) => {
 // Update shift
 const updateShift = async (id, obj) => {
     try {
-        return await shiftsRepo.updateShift(id,obj)
+        const shift = await shiftsRepo.getShiftById(id)
+
+        if (!shift) {
+            throw new Error("Shift not found")
+        }
+
+        if (obj.employeeId) {
+            if (!shift.employees.includes(obj.employeeId)) {
+                shift.employees.push(obj.employeeId)
+            }
+        }
+
+        if (obj.date) shift.date = obj.date
+        if (obj.startingHour !== undefined) shift.startingHour = obj.startingHour
+        if (obj.endingHour !== undefined) shift.endingHour = obj.endingHour
+
+        const updatedShift = await shift.save()
+        return updatedShift
+        
     } catch (err) {
         console.error("Error in updateShift Service:", err.message)
-        throw err; // error to controller
+        throw err
     }
-} 
+}
+ 
 
 // Delete shift
 const deleteShift = async (id) => {

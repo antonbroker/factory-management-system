@@ -60,7 +60,7 @@ form.addEventListener('submit', async event => {
         if (response.ok) {
             const data = await response.json();
             sessionStorage.setItem('token', data.token)
-            window.location.href = "../employees/employees.html"
+            window.location.href = "../pages/employees/employees.html"
         } else {
             document.getElementById('error-message').textContent = "Invalid username or email!"
         }

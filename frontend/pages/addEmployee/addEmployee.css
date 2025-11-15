@@ -46,6 +46,12 @@ header {
     align-items: center;
 }
 
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
 #username {
     color: #2c3e50;
     font-size: 16px;

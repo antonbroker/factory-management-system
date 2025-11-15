@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Users</title>
+        <link rel="stylesheet" href="users.css">
+    </head>
+
+    <body>
+        <header>
+        <div class="header-container">
+            <div class="left-section">
+                <span id="username"></span>
+            </div>
+
+            <div class="nav-links">
+                <button onclick="window.location.href='../employees/employees.html'">Employees</button>
+                <button onclick="window.location.href='../departments/departments.html'">Departments</button>
+                <button onclick="window.location.href='../shifts/shifts.html'">Shifts</button>
+            </div>
+
+            <div class="header-buttons">
+                <button id="logout-button">Log Out</button>
+            </div>
+        </div>
+    </header>
+
+        <main>
+            <h2>Users</h2>
+
+            <section id="users-section">
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Max Actions</th>
+                            <th>Actions Left Today</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- users will be injected here -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <script src="users.js"></script>
+    </body>
+</html>

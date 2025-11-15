@@ -1,10 +1,94 @@
 {
   "actions": [
     {
-      "id": 1,
+      "id": "691704d75d2741dd30dcd8e2",
       "maxActions": 10,
-      "date": "30/10/2025",
-      "actionsAllowed": 10
+      "date": "14/11/2025",
+      "actionsAllowed": 9
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 8
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 7
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 6
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 5
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 4
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 3
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 2
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 1
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 0
+    },
+    {
+      "id": "6917209a3e5c8ba7da5e467c",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 9
+    },
+    {
+      "id": "6917209a3e5c8ba7da5e467c",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 8
+    },
+    {
+      "id": "6917209a3e5c8ba7da5e467c",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 7
+    },
+    {
+      "id": "6917209a3e5c8ba7da5e467c",
+      "maxActions": 10,
+      "date": "14/11/2025",
+      "actionsAllowed": 6
+    },
+    {
+      "id": "691704d75d2741dd30dcd8e2",
+      "maxActions": 10,
+      "date": "15/11/2025",
+      "actionsAllowed": 9
     }
   ]
 }

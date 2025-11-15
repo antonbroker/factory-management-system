@@ -37,7 +37,7 @@ const addShift = async (req,res) => {
         const newShift = await shiftsService.addShift(obj)
 
         if (!newShift) {
-            return res.status(404).json({ message: "Shift has not been created" })
+            return res.status(400).json({ message: "Shift has not been created" })
         }
 
         return res.status(201).json(newShift)

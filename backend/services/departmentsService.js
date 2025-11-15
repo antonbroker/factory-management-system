@@ -1,4 +1,5 @@
-const departmentRepo = require('../repositories/departmentRepo')
+const departmentRepo = require('../repositories/departmentsRepo')
+const Employee = require('../models/employeeModel')
 
 // Get All departments
 const getAllDepartments = async () => {
@@ -43,6 +44,11 @@ const updateDepartment = async (id, obj) => {
 // Delete department
 const deleteDepartment = async (id) => {
     try {
+        await Employee.updateMany(
+            { departmentID: id },
+            { $set: { departmentID: null } }
+        )
+        
         return await departmentRepo.deleteDepartment(id)
     } catch (err) {
         console.error("Error in deleteDepartment Service:", err.message)
