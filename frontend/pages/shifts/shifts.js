@@ -1,279 +1,250 @@
+import { decodeToken } from '../../shared/utils.js'
+
 const token = sessionStorage.getItem('token')
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
     
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
-
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
         window.location.href = '../../login/index.html'
     })
 
-    // Back button
-    const backButton = document.getElementById('back-button')
-    backButton.addEventListener('click', () => {
-        window.location.href = "../employees/employees.html"
+    // Add shift form:
+    const addShiftForm = document.getElementById("add-shift-form")
+    addShiftForm.addEventListener("submit", async (event) => {
+        event.preventDefault()
+        await createShift()
     })
 
-    initShiftsPage()
-}
+    await loadTableShifts()
+    loadAssignSelectors()
+    setupAssignHandlers()
 
-let allEmployees = []
-let allShifts = []
+})
 
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
+let employees = []
+let shifts = []
 
-async function initShiftsPage() {
+async function loadTableShifts() {
     try {
-      await loadEmployees()
-      await loadShifts()
-      setupCreateShiftForm()
-      setupAssignHandlers()
+        await loadEmployees()
+        await loadShifts()
+    } catch (err) {
+        console.error("Error load table shifts:", err)
+        alert("Failed to load table shifts")
+    }
+}
+
+/* ========== LOAD EMPLOYEES ========== */
+async function loadEmployees() {
+    try {
+        const response = await fetch('http://localhost:3000/employees', { 
+            headers: { 'Authorization': `Bearer ${token}` }   
+        })
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch employees')
+        }
+
+        employees = await response.json()
 
     } catch (err) {
-      console.error('Error initializing shifts page:', err)
-      alert('Failed to load shifts page')
+        console.error("Error loading employees data:", err)
+        alert("Failed to load employees data")
     }
-  }
-
-  /* ========== LOAD EMPLOYEES ========== */
-async function loadEmployees() {
-try {
-    const response = await fetch('http://localhost:3000/employees', { 
-      headers: { 'Authorization': `Bearer ${token}` }   
-    })
-
-    if (!response.ok) {
-        throw new Error('Failed to fetch employees')
-    }
-
-    allEmployees = await response.json()
-
-    const employeeSelect = document.getElementById('employeeSelect')
-    if (!employeeSelect) return
-
-    employeeSelect.innerHTML = ''
-
-    allEmployees.forEach(employ => {
-        const option = document.createElement('option')
-        option.value = employ._id
-        option.textContent = `${employ.firstName} ${employ.lastName}`
-        employeeSelect.appendChild(option)
-    })
-
-} catch (err) {
-    console.error("Error loading employees data:", err)
-    alert("Failed to load employees data")
 }
 
-}
-
-/* ========== LOAD SHIFTS (TABLE + SELECT) ========== */
+/* ========== LOAD SHIFTS ========== */
 async function loadShifts() {
-try {
-    const res = await fetch('http://localhost:3000/shifts', { 
-      headers: { 'Authorization': `Bearer ${token}` }   
-  })
+    try {
+        const response = await fetch('http://localhost:3000/shifts', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
 
-    if (!res.ok) {
-        throw new Error('Failed to fetch shifts')
+        if (!response.ok) throw new Error("Failed to fetch shifts")
+
+        shifts = await response.json()
+
+        renderShiftsTable()
+
+    } catch (err) {
+        console.error("Error loading shifts:", err)
+        alert("Failed to load shifts")
+    }
+}
+
+/* ========== RENDER TABLE ========== */
+function renderShiftsTable() {
+    const tbody = document.querySelector("#shifts-table tbody")
+    tbody.innerHTML = ""
+
+    shifts.forEach(shift => {
+        const tr = document.createElement("tr")
+
+        const date = new Date(shift.date).toLocaleDateString('en-GB')
+        const start = shift.startingHour ?? "–"
+        const end = shift.endingHour ?? "–"
+
+        // employees list formatted
+        let employeesHtml = "—"
+
+        if (Array.isArray(shift.employees) && shift.employees.length > 0) {
+            const parts = shift.employees.map(empId => {
+                
+                const emp = employees.find(e => e._id === empId)
+
+                if (!emp) return `<span class="emp-link" style="color:red">Unknown</span>`
+
+                return `<a href="../editEmployee/editEmployee.html?id=${emp._id}" class="emp-link">
+                            ${emp.firstName} ${emp.lastName}
+                        </a>`
+            })
+
+            employeesHtml = parts.join(", ")
+        }
+
+        tr.innerHTML = `
+            <td>${date}</td>
+            <td>${start}</td>
+            <td>${end}</td>
+            <td>${employeesHtml}</td>
+        `
+        tbody.appendChild(tr)
+    })
+}
+
+/* ========== CREATE SHIFT ========== */
+async function createShift() {
+    const addShiftForm = document.getElementById('add-shift-form')
+
+    const date = document.getElementById("date").value
+    const startHour = document.getElementById("startHour").value
+    const endHour = document.getElementById("endHour").value
+
+    if (!date || startHour === "" || endHour === "") {
+        alert("Please fill all fields")
+        return
     }
 
-    allShifts = await res.json()
-
-    renderShiftsTable()
-    fillShiftSelectForAssign()
-
-} catch (err) {
-    console.error("Error loading shifts data:", err)
-    alert("Failed to load shifts data")
-}
-
-}
-
-function renderShiftsTable() {
-    const tbody = document.querySelector('#shifts-table tbody')
-    if (!tbody) return
-  
-    tbody.innerHTML = ''
-  
-    allShifts.forEach(shift => {
-      const tr = document.createElement('tr')
-  
-      const dateObj = shift.date ? new Date(shift.date) : null
-      const date = dateObj && !isNaN(dateObj) ? dateObj.toLocaleDateString() : '—'
-  
-      const startText = Number.isFinite(shift.startingHour) ? `${shift.startingHour}:00` : '–'
-      const endText = Number.isFinite(shift.endingHour) ? `${shift.endingHour}:00` : '–'
-  
-      let employeesHtml = '—'
-  
-      if (Array.isArray(shift.employees) && shift.employees.length > 0) {
-        const parts = shift.employees.map(item => {
-          
-          if (item && item.firstName && item.lastName) {
-            return `<a href="../editEmployee/editEmployee.html?id=${item._id || item.id}" class="emp-link">${item.firstName} ${item.lastName}</a>`
-          }
-  
-          
-          const id = item?._id || item?.id || item?.employeeId || item
-          const emp = allEmployees.find(e => String(e._id || e.id) === String(id))
-  
-          return emp
-            ? `<a href="../editEmployee/editEmployee.html?id=${emp._id || emp.id}" class="emp-link">${emp.firstName} ${emp.lastName}</a>`
-            : 'Unknown'
+    try {
+        const response = await fetch("http://localhost:3000/shifts", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                date,
+                startingHour: Number(startHour),
+                endingHour: Number(endHour)
+            })
         })
-  
-        employeesHtml = parts.join(', ')
-      }
-  
-      tr.innerHTML = `
-        <td>${date}</td>
-        <td>${startText}</td>
-        <td>${endText}</td>
-        <td>${employeesHtml}</td>
-      `
-      tbody.appendChild(tr)
-    })
-  }
-  
 
-function fillShiftSelectForAssign() {
-    const shiftSelect = document.getElementById('shiftSelect')
-    if (!shiftSelect) return
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
 
-    shiftSelect.innerHTML = ''
+        if (!response.ok) {
+            const text = await response.text()
+            throw new Error(text)
+        }
 
-    allShifts.forEach(shift => {
-        const option = document.createElement('option')
-        const dateObj = shift.date ? new Date(shift.date) : null
-        const date = dateObj && !isNaN(dateObj) ? dateObj.toLocaleDateString() : '—'
-        const startText = Number.isFinite(shift.startingHour) ? `${shift.startingHour}:00` : '–'
-        const endText = Number.isFinite(shift.endingHour) ? `${shift.endingHour}:00` : '–'
+        addShiftForm.reset()
 
+        await loadShifts()
+
+        alert("Shift created successfully!")
+
+    } catch (err) {
+        console.error("Error creating shift:", err)
+        alert("Failed to create shift")
+    }
+}
+
+  /* ========== ASSIGN EMPLOYEE TO SHIFT ========== */
+  function loadAssignSelectors() {
+    const shiftSelect = document.getElementById("shiftSelect")
+    const employeeSelect = document.getElementById("employeeSelect")
+
+    shiftSelect.innerHTML = ""
+    employeeSelect.innerHTML = ""
+
+    // fill shifts
+    shifts.forEach(shift => {
+        const option = document.createElement("option")
         option.value = shift._id
-        option.textContent = `${date} (${startText} - ${endText})`
+        option.textContent = `${new Date(shift.date).toLocaleDateString()} (${shift.startingHour}-${shift.endingHour})`
         shiftSelect.appendChild(option)
     })
+
+    // fill employees
+    employees.forEach(emp => {
+        const option = document.createElement("option")
+        option.value = emp._id
+        option.textContent = `${emp.firstName} ${emp.lastName}`
+        employeeSelect.appendChild(option)
+    })
 }
 
-/* ========== CREATE NEW SHIFT ========== */
-
-function setupCreateShiftForm() {
-    const form = document.getElementById('create-shift-form')
-    if (!form) return
-  
-    form.addEventListener('submit', async e => {
-      e.preventDefault()
-  
-      const dateInput = document.getElementById('shiftDate')
-      const startInput = document.getElementById('startHour')
-      const endInput = document.getElementById('endHour')
-  
-      const date = dateInput.value
-      const startHour = Number(startInput.value)
-      const endHour = Number(endInput.value)
-  
-      if (!date) {
-        alert('Please choose date')
-        return
-      }
-  
-      if (Number.isNaN(startHour) || Number.isNaN(endHour)) {
-        alert('Please enter start and end hours')
-        return
-      }
-  
-      if (startHour < 0 || startHour > 23 || endHour < 0 || endHour > 23) {
-        alert('Hours must be between 0 and 23')
-        return
-      }
-  
-      if (endHour <= startHour) {
-        alert('End hour must be greater than start hour')
-        return
-      }
-  
-      try {
-        const res = await fetch('http://localhost:3000/shifts', {
-          method: 'POST',
-          headers: { 
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json' 
-          },
-          body: JSON.stringify({
-            date,
-            startingHour: startHour,
-            endingHour: endHour
-          })
-        })
-  
-        if (!res.ok) {
-          alert('Failed to create shift')
-          return
-        }
-        
-        await loadShifts()
-        // можно очистить форму
-        form.reset()
-      } catch (err) {
-        console.error('Error creating shift:', err)
-        alert('Server error')
-      }
-    })
-  }
-  
-  /* ========== ASSIGN EMPLOYEE TO SHIFT ========== */
-  
-  function setupAssignHandlers() {
+function setupAssignHandlers() {
     const assignBtn = document.getElementById('assign-button')
     if (!assignBtn) return
-  
-    assignBtn.addEventListener('click', async () => {
-      const shiftSelect = document.getElementById('shiftSelect')
-      const employeeSelect = document.getElementById('employeeSelect')
-  
-      if (!shiftSelect || !employeeSelect) return
-  
-      const shiftId = shiftSelect.value
-      const employeeId = employeeSelect.value
-  
-      if (!shiftId || !employeeId) {
-        alert('Please choose shift and employee')
-        return
-      }
-  
-      try {
-        const res = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
-          method: 'PUT',
-          headers: { 
-            'Authorization': `Bearer ${token}`,   
-            'Content-Type': 'application/json' 
-          },
-          body: JSON.stringify({ employeeId })
-        })
-  
-        if (!res.ok) {
-          alert('Failed to assign employee to shift')
-          return
-        }
-  
-        await loadShifts()
 
-      } catch (err) {
-        console.error('Error assigning employee to shift:', err)
-        alert('Server error')
-      }
-    })
-  }
+    assignBtn.addEventListener('click', async () => {
+        const shiftSelect = document.getElementById('shiftSelect')
+        const employeeSelect = document.getElementById('employeeSelect')
+
+        if (!shiftSelect || !employeeSelect) return
+
+        const shiftId = shiftSelect.value
+        const employeeId = employeeSelect.value
+
+        if (!shiftId || !employeeId) {
+            alert('Please choose shift and employee')
+            return
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
+                method: 'PUT',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,   
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({ employeeId })
+            })
+
+            if (response.status === 403) {
+                alert("You’ve reached your daily action limit. Please try again tomorrow.")
+                sessionStorage.removeItem('token')
+                window.location.href = '../../login/index.html'
+                return
+            }
+
+            if (!response.ok) {
+                alert('Failed to assign employee to shift')
+                return
+            }
+
+            await loadShifts()
+            loadAssignSelectors()
+
+        } catch (err) {
+            console.error('Error assigning employee to shift:', err)
+            alert('Server error')
+        }
+    });
+}

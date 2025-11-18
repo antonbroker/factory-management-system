@@ -21,7 +21,6 @@ const checkUserActions = async (req, res, next) => {
 
         // Search user in DB
         const user = await usersService.findByUsernameAndEmail(decoded.username, decoded.email)
-        console.log("🟢 User found in DB:", user)
         if (!user) return res.status(404).json({ message: 'User not found' })
 
         // if GET method, it's not an action

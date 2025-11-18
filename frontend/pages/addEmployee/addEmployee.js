@@ -1,22 +1,24 @@
-const token = sessionStorage.getItem('token')
+import { decodeToken } from '../../shared/utils.js'
+const token = sessionStorage.getItem("token")
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
     
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
-
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
         window.location.href = '../../login/index.html'
     })
 
-    // Back button
+    // Back button:
     const backButton = document.getElementById('back-button')
     backButton.addEventListener('click', () => {
         window.location.href = "../employees/employees.html"
@@ -24,20 +26,13 @@ if (!token) {
 
     loadDepartments()
 
-    // Request to server-side
+    // Add employee form:
     const form = document.getElementById("add-employee-form")
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
         await createEmployee()
     })
-}
-
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
+})
 
 async function loadDepartments() {
     try {
@@ -66,7 +61,7 @@ async function createEmployee () {
     const startYear = document.getElementById("startYear").value
     const departmentSelect = document.getElementById("departmentSelect").value
 
-    // Request to server-side
+    // POST - Request to server-side
     try {
         const response = await fetch('http://localhost:3000/employees', {
             method: 'POST',
@@ -87,7 +82,7 @@ async function createEmployee () {
             sessionStorage.removeItem('token')
             window.location.href = '../../login/index.html'
             return
-          }
+        }
 
         if (!response.ok) {
             alert("Failed to create employee")

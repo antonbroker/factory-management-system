@@ -16,18 +16,18 @@ const addUser = async (obj) => {
 }
 
 // Update user
-const updateUser = async (id,obj) => {
-    return await User.findByIdAndUpdate(id,obj)
+const updateUser = async (id, updateData) => {
+    return await User.findByIdAndUpdate(id, updateData, { new: true })
 }
 
 // Delete user
-const deleteUser = async (id) => {
-    return await User.findByIdAndDelete(id)
-}
+// const deleteUser = async (id) => {
+//     return await User.findByIdAndDelete(id)
+// }
 
 // Get username and email
 const findByUsernameAndEmail = async (username, email) => {
     return await User.findOne({ username, email })
 }
 
-module.exports = { getAllUsers, getUserById, addUser, updateUser, deleteUser, findByUsernameAndEmail }
+module.exports = { getAllUsers, getUserById, addUser, updateUser, findByUsernameAndEmail }

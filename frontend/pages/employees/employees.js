@@ -1,28 +1,18 @@
+import { decodeToken } from '../../shared/utils.js'
+
 const token = sessionStorage.getItem('token')
 
-document.addEventListener('DOMContentLoaded', () => {
-(async () => {
-
-        if (!token) {
-            // Redirect to Login page
-            window.location.href = '../login/index.html'
-            return
-        }
-        // Decode user name
+if (!token) {
+    // Redirect to Login page:
+    window.location.href = '../../login/index.html'
+}
+document.addEventListener('DOMContentLoaded', async () => {
+        // Decode user name from token:
         const user = decodeToken(token)
         document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
-        
-        console.log("DOM check:",
-            document.getElementById('username'),
-            document.getElementById('logout-button'),
-            document.getElementById('add-employee-button'),
-            document.getElementById('department-filter'),
-            document.querySelector("#employees-table tbody")
-        );
 
-        // LogOut button
+        // LogOut button:
         const logOutButton = document.getElementById('logout-button')
-
         logOutButton.addEventListener('click', () => {
             sessionStorage.removeItem('token')
             window.location.href = '../../login/index.html'
@@ -34,23 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '../addEmployee/addEmployee.html'
         })
 
-        // Filter department
+        // Filter department:
         await loadDepartments()
+
+        // Load employees and shifts by filtered department:
         await loadEmployees()
         await loadEmployeeShifts()
         
-        // Render Employees into the table department
+        // Render Employees into the table department:
         const departmentsFilter = document.getElementById("department-filter")
         departmentsFilter.addEventListener('change', loadEmployees)
-})();
 })
-
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
 
 async function loadDepartments() {
     try {
@@ -113,21 +97,49 @@ async function loadEmployees() {
 
             const empShifts = shiftsByEmployee[emp._id] || []
 
-            const shiftsText = empShifts.length === 0
-                ? '—'
-                : empShifts.map(shift => {
-                    const date = new Date(shift.date).toLocaleDateString()
-                    const start = shift.startingHour ?? '–'
-                    const end = shift.endingHour ?? '–'
-                    return `${date} (${start}:00-${end}:00)`
-                }).join(', ')
+            let shiftsHTML = '';
+
+            if (empShifts.length === 0) {
+                shiftsHTML = '<span class="no-shifts">No shifts</span>';
+            } else {
+
+                // Полный список
+                const allShifts = empShifts.map(shift => {
+                    const date = new Date(shift.date).toLocaleDateString('en-GB');
+                    return `
+                        <span class="shift-badge">
+                            ${date} (${shift.startingHour}:00–${shift.endingHour}:00)
+                        </span>
+                    `;
+                });
+
+                if (empShifts.length <= 2) {
+                    shiftsHTML = `
+                        <div class="shifts-grid">
+                            ${allShifts.join('')}
+                        </div>
+                    `;
+                } else {
+                    shiftsHTML = `
+                        <div class="shifts-grid shift-limited">
+                            ${allShifts.slice(0, 2).join('')}
+                        </div>
+                
+                        <button class="show-all-btn">more</button>
+                
+                        <div class="shifts-grid shift-full" style="display: none;">
+                            ${allShifts.join('')}
+                        </div>
+                    `;
+                }                
+            }
 
             tr.innerHTML = `
                 <td><a href="../editEmployee/editEmployee.html?id=${emp._id}" class="emp-link">${emp.firstName} ${emp.lastName}</a></td>
-                <td>${emp.departmentID?.name || "—"}</td>
-                <td>${shiftsText}</td>
+                <td>${emp.departmentID ? `<a href="../editDepartment/editDepartment.html?id=${emp.departmentID._id}" class="dep-link">${emp.departmentID.name}</a>`: "—"}</td>
+                <td>${shiftsHTML}</td>
             `
-
+            
             tbody.appendChild(tr)
         })
     } catch (err) {
@@ -148,75 +160,15 @@ async function loadEmployeeShifts() {
     }
 }
 
+// Button "more"
+document.addEventListener("click", e => {
+    if (e.target.classList.contains("show-all-btn")) {
+        const btn = e.target
+        const limited = btn.previousElementSibling
+        const full = btn.nextElementSibling
 
-
-// Floating AI schedule button
-document.getElementById('ai-button').addEventListener('click', async () => {
-    const token = sessionStorage.getItem('token')
-    if (!token) {
-      alert('Please log in first!')
-      window.location.href = '../../login/index.html'
-      return
+        limited.style.display = "none"
+        full.style.display = "grid"
+        btn.remove()
     }
-  
-    try {
-      const response = await fetch('http://localhost:3000/useAI', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-  
-      console.log('AI /useAI status:', response.status)
-      console.log('AI /useAI content-type:', response.headers.get('content-type'))
-  
-      if (response.status === 403) {
-        alert('You’ve reached your daily action limit. Try again tomorrow.')
-        sessionStorage.removeItem('token')
-        window.location.href = '../../login/index.html'
-        return
-      }
-  
-      if (!response.ok) {
-        const text = await response.text().catch(() => '')
-        console.error('Server returned not ok:', response.status, text)
-        alert('Failed to generate schedule on server.')
-        return
-      }
-  
-      const blob = await response.blob()
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(blob)
-      link.download = 'weekly_schedule.xlsx'
-      document.body.appendChild(link)
-      link.click()
-      setTimeout(() => {
-        URL.revokeObjectURL(link.href)
-        link.remove()
-      }, 1000)
-  
-      // твои классы-анимации — по желанию
-      const aiButton = document.getElementById('ai-button')
-      aiButton.classList.remove('generating')
-      aiButton.classList.add('success')
-      setTimeout(() => aiButton.classList.remove('success'), 2000)
-  
-    } catch (err) {
-      console.error('Error downloading AI schedule:', err)
-      alert('Server error while generating schedule.')
-    }
-  })
-  
-  
-
-
-/*
-    1. Check token
-    2. Decode username from token
-    3. Display user name
-    4. TODO: count action
-    5. Fetch departments
-    6. Fetch employees
-    7. Render table
-    8. Render departments dropdown
-    9. Filter handler
-    10. Logout handler and remove token
-*/
-
+})

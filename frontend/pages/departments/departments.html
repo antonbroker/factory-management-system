@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Departments</title>
-  <link rel="stylesheet" href="./departments.css">
-</head>
-<body>
-  <header>
-    <div class="header-container">
-        <div class="left-section">
-            <span id="username"></span>
-        </div>
-        <div class="nav-links">
-            <button onclick="window.location.href='../employees/employees.html'">Employees</button>
-            <button onclick="window.location.href='../shifts/shifts.html'">Shifts</button>
-            <button onclick="window.location.href='../users/users.html'">Users</button>
-        </div>
-        <div class="header-buttons">
-            <button id="logout-button">Log Out</button>
-        </div>
-    </div>
-  </header>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Departments</title>
+        <link rel="stylesheet" href="../../shared/styles.css">
+        <link rel="stylesheet" href="./departments.css">
+    </head>
 
-  <main>
-    <div class="container">
-      <h2>Departments</h2>
+    <body>
+        <header>
+            <div class="header-container">
+                <div class="left-section">
+                    <span id="username"></span>
+                </div>
+                <div class="nav-links">
+                    <button onclick="window.location.href='../employees/employees.html'"> Employees </button>
+                    <button onclick="window.location.href='../shifts/shifts.html'"> Shifts </button>
+                    <button onclick="window.location.href='../users/users.html'"> Users </button>
+                </div>
+                <div class="header-buttons">
+                    <button id="logout-button"> Log Out </button>
+                </div>
+            </div>
+        </header>
 
-      <button id="add-department-button">New Department</button>
+        <main class="page-container">
+            <div class="container">
+                <h2> Departments </h2>
 
-      <table id="departments-table">
-        <thead>
-          <tr>
-            <th>Department Name</th>
-            <th>Manager</th>
-            <th>Employees</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- rows will be dynamically inserted -->
-        </tbody>
-      </table>
-    </div>
-  </main>
+                <button id="add-department-button"> New Department </button>
 
-  <script src="./departments.js"></script>
-</body>
+                <table id="departments-table">
+                    <thead>
+                        <tr>
+                            <th> Department Name </th>
+                            <th> Manager </th>
+                            <th> Employees </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be dynamically inserted -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    <!-- AI button -->
+        <button id="ai-button" title="Generate AI Schedule">📅</button> 
+
+        <script src="../../shared/ai-button.js"></script>
+        <script type="module" src="./departments.js"></script>
+    </body>
 </html>

@@ -1,21 +1,24 @@
+import { decodeToken } from '../../shared/utils.js'
 const token = sessionStorage.getItem("token")
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
 
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
         window.location.href = '../../login/index.html'
     })
 
-    // Back button
+    // Back button:
     const backButton = document.getElementById('back-button')
     backButton.addEventListener('click', () => {
         window.location.href = '../departments/departments.html'
@@ -23,21 +26,13 @@ if (!token) {
 
     loadManagers()
 
-    // Request to server-side
+    // Request to server-side:
     const form = document.getElementById("add-department-form")
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
         await createDepartment()
     })
-}
-
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
-
+})
 
 async function loadManagers() {
     try {

@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="employees.css">
-    <title>Employees</title>
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <div class="left-section">
-                <span id="username"></span>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../shared/styles.css">
+        <link rel="stylesheet" href="employees.css">
+        <title>Employees</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="header-container">
+                <div class="left-section">
+                    <span id="username"></span>
+                </div>
+                <div class="nav-links">
+                    <button onclick="window.location.href='../departments/departments.html'"> Departments </button>
+                    <button onclick="window.location.href='../shifts/shifts.html'"> Shifts </button>
+                    <button onclick="window.location.href='../users/users.html'"> Users </button>
+                </div>
+                <div class="header-buttons">
+                    <button id="logout-button"> Log Out </button>
+                </div>
             </div>
-            <div class="nav-links">
-                <button onclick="window.location.href='../departments/departments.html'">Departments</button>
-                <button onclick="window.location.href='../shifts/shifts.html'">Shifts</button>
-                <button onclick="window.location.href='../users/users.html'">Users</button>
-            </div>
-            <div class="header-buttons">
-                <button id="logout-button">Log Out</button>
-            </div>
-        </div>
-    </header>
-    
-    <main>
-        <h2>Employees</h2>
-        <p id="error-message"></p>
+        </header>
+        
+        <main class="page-container">
+            <h2> Employees </h2>
+            <p id="error-message"></p>
 
-        <!-- Add new employee button -->
-        <button id="add-employee-button">Add Employee</button>
+            <!-- Add new employee button -->
+            <button id="add-employee-button"> Add Employee </button>
 
-        <!-- Filter by department -->
-        <label for="department-filter">Filter by Department:</label>
-        <select id="department-filter">
-            <option value="all">All Departments</option>
-            <!-- Departments will be loaded here -->
-        </select>
+            <!-- Filter by department -->
+            <label for="department-filter"> Filter by Department: </label>
+            <select id="department-filter">
+                <option value="all"> All Departments </option>
+                <!-- Departments will be loaded here -->
+            </select>
 
-        <!-- Employees table -->
-        <table id="employees-table">
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Department</th>
-                    <th>Shifts</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Employees will be dynamically inserted here -->
-            </tbody>
-        </table>
-    </main>
+            <!-- Employees table -->
+            <table id="employees-table">
+                <thead>
+                    <tr>
+                        <th> Full Name </th>
+                        <th> Department </th>
+                        <th> Shifts </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Employees will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </main>
 
-    <!-- AI button -->
-    <button id="ai-button" title="Generate AI Schedule">📅</button> 
+        <!-- AI button -->
+        <button id="ai-button" title="Generate AI Schedule">📅</button> 
 
-    <script src="employees.js"></script>
-</body>
+        <script src="../../shared/ai-button.js"></script>
+        <script type="module" src="employees.js"></script>
+    </body>
 </html>

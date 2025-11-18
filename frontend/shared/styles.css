@@ -1,0 +1,443 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND  */
+body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* HEADER */
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid #ff6b35;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.nav-links {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
+.header-buttons {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+}
+
+/* NAV BUTTONS */
+.nav-links button {
+    background: transparent;
+    color: #2c3e50;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links button::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff6b35;
+    transition: width 0.3s ease;
+}
+
+.nav-links button:hover {
+    color: #ff6b35;
+}
+
+.nav-links button:hover::after {
+    width: 100%;
+}
+
+/* USERNAME */
+#username {
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* LOGOUT BUTTON */
+#logout-button {
+    background: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+#logout-button:hover {
+    background: rgba(231, 76, 60, 0.1);
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+    box-shadow:
+        0 0 10px rgba(231, 76, 60, 0.5),
+        0 0 20px rgba(231, 76, 60, 0.3),
+        inset 0 0 10px rgba(231, 76, 60, 0.2);
+}
+
+/* BACK BUTTON */
+#back-button {
+    background: transparent;
+    color: #2c3e50;
+    border: 2px solid #2c3e50;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+#back-button:hover {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+    border-color: #2c3e50;
+    box-shadow:
+        0 0 10px rgba(52, 152, 219, 0.5),
+        0 0 20px rgba(52, 152, 219, 0.3),
+        inset 0 0 10px rgba(52, 152, 219, 0.2);
+}
+
+/* MAIN */
+.page-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1;
+    border-top: 4px solid #ff6b35;
+}
+
+/* TITLES */
+h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ff6b35;
+}
+
+h3 {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background: #2c3e50;
+    color: white;
+}
+
+thead th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+}
+
+tbody td {
+    padding: 16px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+tbody td:first-child {
+    font-weight: 600;
+}
+
+/* LINKS */
+.dep-link, .emp-link {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.dep-link:hover, .emp-link:hover {
+    color: #ff6b35;
+    text-decoration: underline;
+}
+
+/* AI BUTTON */
+#ai-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #ff6b35 0%, #764ba2 100%);
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+#ai-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: inherit;
+    z-index: -1;
+    animation: ripple 2s ease-out infinite;
+}
+
+#ai-button::after {
+    content: 'AI Schedule';
+    position: absolute;
+    right: 85px;
+    background: #ff6b35;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(216, 117, 36, 0.2);
+    letter-spacing: 0.5px;
+}
+
+#ai-button:hover {
+    transform: scale(1.15) rotate(10deg);
+    box-shadow: 0 12px 35px rgba(209, 118, 66, 0.6);
+}
+
+#ai-button:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#ai-button:active {
+    transform: scale(0.95) rotate(0deg);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+#ai-button.generating {
+    pointer-events: none;
+    animation: none;
+}
+
+/* loader */
+#ai-button.generating::before {
+    content: '';
+    position: absolute;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+    border-radius: 50%;
+    border: 4px solid transparent;
+    border-top-color: #ff6b35;
+    border-right-color: #ff6b35;
+    animation: spin 1s linear infinite;
+    z-index: 10;
+    background: transparent;
+}
+
+#ai-button.generating::after {
+    content: 'Generating...';
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Successfull generation */
+#ai-button.success {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    animation: successBounce 0.6s ease;
+}
+
+#ai-button.success::after {
+    content: 'Done!';
+    opacity: 1;
+    transform: translateX(0);
+    background: #27ae60;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+        box-shadow: 0 8px 35px rgba(102, 126, 234, 0.7);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes successBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.3);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    75% {
+        transform: scale(1.15);
+    }
+}
+
+
+/* --- Responsive  --- */
+@media (max-width: 768px) {
+    .page-container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    #ai-button {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    #ai-button::after {
+        display: none;
+    }
+}

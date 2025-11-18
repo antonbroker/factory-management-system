@@ -7,7 +7,7 @@ form.addEventListener('submit', async event => {
     const email = document.querySelector('[name="email"]').value
 
     /* VALIDATION INPUTS*/
-    document.getElementById('error-message').textContent = "";
+    document.getElementById('error-message').textContent = ""
 
     if (username.trim() === "" && email.trim() === "") {
         document.getElementById('error-message').textContent = "All fields are required!"
@@ -21,14 +21,16 @@ form.addEventListener('submit', async event => {
         document.querySelector('[name="username"]').value = ""
         document.querySelector('[name="username"]').classList.add("error")
         document.getElementById('error-message').textContent = "Username can't be empty!"
+        return
     }
 
-    const regex = /^[a-zA-Z0-9_]+$/; // Only "_" is valid in username
+    const regex = /^[a-zA-Z0-9._]+$/ // Only "_" and "." is valid in username
 
     if (!regex.test(username)) {
         document.querySelector('[name="username"]').value = ""
         document.querySelector('[name="username"]').classList.add("error")
         document.getElementById('error-message').textContent = "Username can contain only letters!"
+        return
     }
 
     // Email validation:
@@ -36,18 +38,22 @@ form.addEventListener('submit', async event => {
         document.querySelector('[name="email"]').value = ""
         //document.querySelector('[name="email"]').classList.add("error");
         document.getElementById('error-message').textContent = "Email field cannot be empty!"
+        return
     } else if (!email.includes('@')) {
         document.querySelector('[name="email"]').value = ""
         document.querySelector('[name="email"]').classList.add("error")
         document.getElementById('error-message').textContent = "Email must contain '@'!"
+        return
     } else if (!email.includes('.')) {
         document.querySelector('[name="email"]').value = ""
         document.querySelector('[name="email"]').classList.add("error")
         document.getElementById('error-message').textContent = "Email must contain '.'!"
+        return
     }
 
-    // Request to server-side
+    // POST - Request to server-side
     try {
+        console.log("SENDING:", { username, email })
         const response = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

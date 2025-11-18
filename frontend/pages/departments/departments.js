@@ -1,14 +1,18 @@
+import { decodeToken } from '../../shared/utils.js'
+
 const token = sessionStorage.getItem('token')
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
     
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
@@ -17,19 +21,12 @@ if (!token) {
 
     loadDepartments()
 
-    // Add new department button
+    // Add new department button:
     const addButton = document.getElementById('add-department-button')
     addButton.addEventListener('click', () => {
         window.location.href = '../addDepartment/addDepartment.html'
     })
-}
-
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
+})
 
 async function loadDepartments() {
     try {

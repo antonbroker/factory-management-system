@@ -4,8 +4,26 @@ const usersRepo = require("../repositories/usersRepo")
 // Get all users
 const getAllUsers = async () => {
     try {
-            return await usersRepo.getAllUsers()
-    
+        const users = await usersRepo.getAllUsers()
+
+        const today = new Date().toDateString()
+        
+        for (const user of users) {
+            const lastAction = new Date(user.lastActionDate).toDateString()
+            if (lastAction !== today) {
+                
+                user.numOfActions = user.maxActionsPerDay
+                user.lastActionDate = new Date()
+
+                await usersRepo.updateUser(user._id, {
+                    numOfActions: user.numOfActions,
+                    lastActionDate: user.lastActionDate
+                })
+            }
+        }
+
+        return users
+
     } catch (err) {
         console.error("Error in getAllUsers Service:", err.message)
         throw err // error to controller 

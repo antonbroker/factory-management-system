@@ -10,7 +10,7 @@ const authenticateUser = async (username, email) => {
     try {
         const { data : users} = await axios.get('https://jsonplaceholder.typicode.com/users')
     
-        // Check 
+        // Check:
         const user = users.find(user => (user.username === username && user.email === email))
 
         if (!user) {
@@ -24,7 +24,7 @@ const authenticateUser = async (username, email) => {
         console.log("User full name: ", user.name)
 
 
-        // get token JWT
+        // New JWT for user:
         const token = jwt.sign({
             id: user.id, 
             username: user.username, 
@@ -35,10 +35,6 @@ const authenticateUser = async (username, email) => {
             { expiresIn: "1h" }
         )
 
-        // init actions of current user
-        // await initUserActions(user.id)
-
-        // console.log(token)
         return token
 
     } catch (error) {
@@ -47,7 +43,6 @@ const authenticateUser = async (username, email) => {
     }
 
 }
-
 
 async function ensureUserExists(user) {
     const existed = await usersService.checkUserExists(user)

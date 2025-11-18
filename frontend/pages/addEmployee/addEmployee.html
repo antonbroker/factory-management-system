@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./addEmployee.css">
-    <title>Add employee</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../shared/styles.css">
+        <link rel="stylesheet" href="./addEmployee.css">
+        <title>Add employee</title>
+    </head>
+
     <body>
         <header>
             <div class="header-container">
@@ -19,34 +21,38 @@
     
         <main>
             <div class="container">
-                <h2>Add Employee</h2>
+                <h2> Add Employee </h2>
     
                 <form id="add-employee-form">
                     <div class="form-group">
-                        <label for="firstName">First Name:</label>
+                        <label for="firstName"> First Name: </label>
                         <input type="text" id="firstName" required>
                     </div>
     
                     <div class="form-group">
-                        <label for="lastName">Last Name:</label>
+                        <label for="lastName"> Last Name: </label>
                         <input type="text" id="lastName" required>
                     </div>
     
                     <div class="form-group">
-                        <label for="startYear">Start Work Year:</label>
+                        <label for="startYear"> Start Work Year: </label>
                         <input type="number" min="1970" max="2026" id="startYear" required>
                     </div>
     
                     <div class="form-group">
-                        <label for="departmentSelect">Department:</label>
+                        <label for="departmentSelect"> Department: </label>
                         <select id="departmentSelect" required></select>
                     </div>
     
-                    <button type="submit">Create Employee</button>
+                    <button type="submit"> Create Employee </button>
                 </form>
             </div>
         </main>
 
-        <script src="./addEmployee.js"></script>
+        <!-- AI button -->
+        <button id="ai-button" title="Generate AI Schedule">📅</button> 
+
+        <script src="../../shared/ai-button.js"></script>
+        <script type="module" src="./addEmployee.js"></script>
     </body>
 </html>

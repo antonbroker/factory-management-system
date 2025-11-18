@@ -1,60 +1,55 @@
+import { decodeToken } from '../../shared/utils.js'
 const token = sessionStorage.getItem('token')
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
     
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
-
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
         window.location.href = '../../login/index.html'
     })
 
-    // Back button
+    // Back button:
     const backButton = document.getElementById('back-button')
     backButton.addEventListener('click', () => {
         window.location.href = "../employees/employees.html"
     })
 
-    // Load employee data by ID in URL
+    // Load employee data by ID in URL:
     const urlParams = new URLSearchParams(window.location.search)
     const employeeId = urlParams.get("id")
     loadDepartmentsForEdit()
     loadAvailableShifts()
     loadEmployeeData(employeeId)
 
-    // Request to server-side for edit employee
+    // Request to server-side for edit employee:
     const form = document.getElementById("edit-employee-form")
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
         await editEmployee()
     })
 
-     // Request to server-side for delete employee
-     const deleteButton = document.getElementById("delete-button")
-     deleteButton.addEventListener('click', async () => {
+    // Request to server-side for delete employee:
+    const deleteButton = document.getElementById("delete-button")
+    deleteButton.addEventListener('click', async () => {
         await deleteEmployee()
-     })
+    })
 
-     // Assign employee to shift
-     const assignButton = document.getElementById("assign-shift-button")
-     assignButton.addEventListener('click', async () => {
+    // Assign employee to shift:
+    const assignButton = document.getElementById("assign-shift-button")
+    assignButton.addEventListener('click', async () => {
         await assignShiftToEmployee()
-     })
-}
-
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
+    })
+})
 
 async function loadEmployeeData(employeeId) {
     try {
@@ -78,7 +73,7 @@ async function loadEmployeeData(employeeId) {
         startYear.value = employeeData.startWorkYear
         departmentSelect.value = employeeData.departmentID?._id || ""
 
-        // load shifts data about current employee
+        // Load shifts data about current employee:
         await loadEmployeeShifts()
 
     } catch (err) {
@@ -131,6 +126,13 @@ async function editEmployee() {
             body: JSON.stringify(updatedEmployee)
         })
 
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
+
         if (!response.ok){
             alert("Failed to update employee")
             return
@@ -154,6 +156,13 @@ async function deleteEmployee() {
             headers: { 'Authorization': `Bearer ${token}` },
             method: 'DELETE'
         })
+
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
 
         if (!response.ok) {
             alert("Failed to delete employee")
@@ -249,7 +258,7 @@ async function assignShiftToEmployee() {
         const shiftId = document.getElementById("shift-select").value
 
         // PUT - request to server
-        const res = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
+        const response = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
             method: "PUT",
             headers: { 
                 'Authorization': `Bearer ${token}`,  
@@ -258,7 +267,14 @@ async function assignShiftToEmployee() {
             body: JSON.stringify({ employeeId })
         })
 
-        if (!res.ok) {
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
+
+        if (!response.ok) {
             alert("Failed to assign shift")
             return
         }

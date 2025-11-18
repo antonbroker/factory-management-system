@@ -1,28 +1,29 @@
+import { decodeToken } from '../../shared/utils.js'
 const token = sessionStorage.getItem('token')
 
 if (!token) {
-    // Redirect to Login page
+    // Redirect to Login page:
     window.location.href = '../../login/index.html'
-} else {
-    // Decode user name
+} 
+document.addEventListener('DOMContentLoaded', async () => {
+    // Decode user name:
     const user = decodeToken(token)
     document.getElementById('username').textContent = `Welcome, ${user.fullName}!`
     
-    // LogOut button
+    // LogOut button:
     const logOutButton = document.getElementById('logout-button')
-
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
         window.location.href = '../../login/index.html'
     })
 
-    // Back button
+    // Back button:
     const backButton = document.getElementById('back-button')
     backButton.addEventListener('click', () => {
         window.location.href = "../departments/departments.html"
     })
 
-    // Load department data by ID in URL
+    // Load department data by ID in URL:
     const urlParams = new URLSearchParams(window.location.search)
     const departmentId = urlParams.get("id")
 
@@ -30,31 +31,25 @@ if (!token) {
     loadEmployeesInDepartment(departmentId)
     loadAvailableEmployees(departmentId)
     
-    // Update form
+    // Update form:
     const form = document.getElementById("edit-department-form")
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
         await updateDepartment(departmentId)
     })
 
-    // Request to server-side for delete department
+    // Request to server-side for delete department:
     const deleteButton = document.getElementById("delete-button")
     deleteButton.addEventListener('click', async () => {
        await deleteDepartment(departmentId)
     })
 
-    // Request to server-side for add employee to current department
+    // Request to server-side for add employee to current department:
     const addButton = document.getElementById("add-employee-button")
     addButton.addEventListener('click', async () => {
        await addEmployeeToDepartment(departmentId)
     })
-}
-
-function decodeToken(token) {
-    const payload = token.split('.')[1]
-    const decoded = JSON.parse(atob(payload))
-    return decoded
-}
+})
 
 async function loadDepartmentData(id) {
     try {
@@ -125,7 +120,6 @@ async function loadEmployeesInDepartment(departmentId) {
                     <td><a href="../editEmployee/editEmployee.html?id=${employee._id}" class="emp-link">${employee.firstName} ${employee.lastName}</a></td>
                     <td>${employee.startWorkYear}</td>
                 `
-
                 tbody.appendChild(tr)
             }
         })
@@ -135,7 +129,6 @@ async function loadEmployeesInDepartment(departmentId) {
         alert("Server error")
     }
 }
-
 
 async function updateDepartment(departmentId) {
     try {
@@ -152,6 +145,13 @@ async function updateDepartment(departmentId) {
             },
             body: JSON.stringify(updatedDepartment)
         })
+
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
 
         if (!response.ok){
             alert("Failed to update department")
@@ -175,6 +175,13 @@ async function deleteDepartment(departmentId) {
             },
             method: 'DELETE'
         })
+
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
     
         if (!response.ok) {
             alert("Failed to delete department")
@@ -215,39 +222,46 @@ async function loadAvailableEmployees(departmentId) {
       console.error("Error loading available employees:", err)
       alert("Failed to load available employees")
     }
-  }
+}
   
 
-  async function addEmployeeToDepartment(departmentId) {
+async function addEmployeeToDepartment(departmentId) {
     try {
-      const employeeId = document.getElementById("employeeSelect").value
-  
-      if (!employeeId) {
-        alert("Please select an employee to add.")
+        const employeeId = document.getElementById("employeeSelect").value
+
+        if (!employeeId) {
+            alert("Please select an employee to add.")
+            return
+        }
+
+        const res = await fetch(`http://localhost:3000/employees/${employeeId}`, {
+            method: "PUT",
+            headers: { 
+                'Authorization': `Bearer ${token}`,
+                "Content-Type": "application/json" 
+            },
+            body: JSON.stringify({ departmentID: departmentId })
+        })
+
+        if (response.status === 403) {
+            alert("You’ve reached your daily action limit. Please try again tomorrow.")
+            sessionStorage.removeItem('token')
+            window.location.href = '../../login/index.html'
+            return
+        }
+
+        if (!res.ok) {
+            alert("Failed to add employee to department")
         return
-      }
-  
-      const res = await fetch(`http://localhost:3000/employees/${employeeId}`, {
-        method: "PUT",
-        headers: { 
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json" 
-        },
-        body: JSON.stringify({ departmentID: departmentId })
-      })
-  
-      if (!res.ok) {
-        alert("Failed to add employee to department")
-        return
-      }
-  
-      await loadEmployeesInDepartment(departmentId)
-      await loadAvailableEmployees(departmentId)
-  
+        }
+
+        await loadEmployeesInDepartment(departmentId)
+        await loadAvailableEmployees(departmentId)
+
     } catch (err) {
-      console.error("Error adding employee:", err)
-      alert("Server error")
+        console.error("Error adding employee:", err)
+        alert("Server error")
     }
-  }
-  
+}
+
   
