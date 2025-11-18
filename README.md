@@ -232,7 +232,7 @@ Main Features:
 ![Users](./screenshots/users.png)
 
 ### AI Schedule Generator
-![AI](./screenshots/ai.png)
+![AI](./screenshots/ai_schedule.png)
 
 
 ### AI Schedule Generator (OpenAI):
