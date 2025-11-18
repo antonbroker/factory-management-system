@@ -130,19 +130,19 @@ backend/
 
 ## How to Run Locally
 1. Install backend dependencies:
-npm install
+- npm install
 
 2. Create .env file:
-MONGODB_URI=your-mongodb-uri
-JWT_SECRET=your-jwt-secret
-OPENAI_API_KEY=your-openai-api-key # optional (for AI scheduling)
+- MONGODB_URI=your-mongodb-uri
+- JWT_SECRET=your-jwt-secret
+- OPENAI_API_KEY=your-openai-api-key # optional (for AI scheduling)
 
 3. Start backend:
-npm start
-By default the server runs on http://localhost:3000.
+- npm start
+- By default the server runs on http://localhost:3000.
 
 4. Open frontend:
-frontend/login/index.html
+- frontend/login/index.html
 
 
 ## Features
