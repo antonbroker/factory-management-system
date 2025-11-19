@@ -23,6 +23,7 @@ Frontend:
 
 
 ## Backend Architecture Overview
+```txt
 backend/
 │── app.js                     # Main Express application
 │── package.json
@@ -74,9 +75,10 @@ backend/
 └── data/
     ├── actions.json           # Daily logs of user actions
     └── weekly_schedule.xlsx   # Auto-generated Excel from AI
-
+```
 
 ## Frontend Architecture Overview
+```txt
 ├───login
 │       index.html
 │       login.css
@@ -127,7 +129,7 @@ backend/
         ai-button.js
         styles.css
         utils.js
-
+```
 
 ## How to Run Locally
 1. Install backend dependencies:
