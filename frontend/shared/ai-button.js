@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "/shared/config.js"
+import { API_BASE_URL } from "./config.js"
 
 // Floating AI schedule button
 const aiButton = document.getElementById('ai-button')
@@ -24,7 +24,7 @@ document.getElementById('ai-button').addEventListener('click', async () => {
       if (response.status === 403) {
         alert('You’ve reached your daily action limit. Try again tomorrow.')
         sessionStorage.removeItem('token')
-        window.location.href = '../../login/index.html'
+        window.location.href = '../../index.html'
         return
       }
   
