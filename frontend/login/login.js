@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../shared/config"
+import { API_BASE_URL } from "../shared/config.js"
 
 const form = document.getElementById('login-form')
 

@@ -1,5 +1,5 @@
 import { decodeToken } from '../../shared/utils.js'
-import { API_BASE_URL } from "../shared/config"
+import { API_BASE_URL } from "../shared/config.js"
 
 const token = sessionStorage.getItem('token')
 
