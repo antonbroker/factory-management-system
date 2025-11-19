@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "./config.js"
+
 // Floating AI schedule button
 const aiButton = document.getElementById('ai-button')
 document.getElementById('ai-button').addEventListener('click', async () => {
@@ -5,14 +7,14 @@ document.getElementById('ai-button').addEventListener('click', async () => {
 
     if (!token) {
       alert('Please log in first!')
-      window.location.href = '../../login/index.html'
+      window.location.href = '../index.html'
       return
     }
     
     aiButton.classList.add('generating')
 
     try {
-      const response = await fetch('http://localhost:3000/useAI', {
+      const response = await fetch(`${API_BASE_URL}/useAI`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
   

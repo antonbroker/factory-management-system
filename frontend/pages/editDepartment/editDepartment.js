@@ -5,7 +5,7 @@ const token = sessionStorage.getItem('token')
 
 if (!token) {
     // Redirect to Login page:
-    window.location.href = '../../login/index.html'
+    window.location.href = '../../index.html'
 } 
 document.addEventListener('DOMContentLoaded', async () => {
     // Decode user name:
