@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const logOutButton = document.getElementById('logout-button')
     logOutButton.addEventListener('click', () => {
         sessionStorage.removeItem('token')
-        window.location.href = '../../login/index.html'
+        window.location.href = '../../index.html'
     })
 
     // Back button:
