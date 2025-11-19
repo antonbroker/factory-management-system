@@ -131,7 +131,7 @@ async function editEmployee() {
         if (response.status === 403) {
             alert("You’ve reached your daily action limit. Please try again tomorrow.")
             sessionStorage.removeItem('token')
-            window.location.href = '../../login/index.html'
+             window.location.href = '../../index.html'
             return
         }
 
@@ -162,7 +162,7 @@ async function deleteEmployee() {
         if (response.status === 403) {
             alert("You’ve reached your daily action limit. Please try again tomorrow.")
             sessionStorage.removeItem('token')
-            window.location.href = '../../login/index.html'
+             window.location.href = '../../index.html'
             return
         }
 
@@ -209,7 +209,6 @@ async function loadAvailableShifts() {
         alert(`Failed to load shifts: ${err.message}`)
     }
 }
-
 
 async function loadEmployeeShifts() {
     try {
@@ -272,7 +271,7 @@ async function assignShiftToEmployee() {
         if (response.status === 403) {
             alert("You’ve reached your daily action limit. Please try again tomorrow.")
             sessionStorage.removeItem('token')
-            window.location.href = '../../login/index.html'
+             window.location.href = '../../index.html'
             return
         }
 

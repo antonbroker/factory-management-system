@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./config.js"
+import { API_BASE_URL } from "/shared/config.js"
 
 // Floating AI schedule button
 const aiButton = document.getElementById('ai-button')
