@@ -97,8 +97,10 @@ backend/
 
 ## Frontend Architecture Overview
 ```txt
+├───index.html
+│
 ├───login
-│       index.html
+│       
 │       login.css
 │       login.js
 │
