@@ -1,4 +1,5 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
 
 const token = sessionStorage.getItem('token')
 
@@ -48,7 +49,7 @@ async function loadTableShifts() {
 /* ========== LOAD EMPLOYEES ========== */
 async function loadEmployees() {
     try {
-        const response = await fetch('http://localhost:3000/employees', { 
+        const response = await fetch(`${API_BASE_URL}/employees`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -67,7 +68,7 @@ async function loadEmployees() {
 /* ========== LOAD SHIFTS ========== */
 async function loadShifts() {
     try {
-        const response = await fetch('http://localhost:3000/shifts', {
+        const response = await fetch(`${API_BASE_URL}/shifts`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
 
@@ -137,7 +138,7 @@ async function createShift() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/shifts", {
+        const response = await fetch(`${API_BASE_URL}/shifts`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -218,7 +219,7 @@ function setupAssignHandlers() {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
+            const response = await fetch(`${API_BASE_URL}/${shiftId}`, {
                 method: 'PUT',
                 headers: { 
                     'Authorization': `Bearer ${token}`,   
@@ -246,5 +247,5 @@ function setupAssignHandlers() {
             console.error('Error assigning employee to shift:', err)
             alert('Server error')
         }
-    });
+    })
 }

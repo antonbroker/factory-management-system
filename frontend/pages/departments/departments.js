@@ -1,4 +1,5 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
 
 const token = sessionStorage.getItem('token')
 
@@ -30,13 +31,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadDepartments() {
     try {
-        const depRes = await fetch("http://localhost:3000/departments", { 
+        const depRes = await fetch(`${API_BASE_URL}/departments`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
         if (!depRes.ok) throw new Error("Failed to fetch departments")
         const departments = await depRes.json()
     
-        const empRes = await fetch("http://localhost:3000/employees", { 
+        const empRes = await fetch(`${API_BASE_URL}/employees`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
         if (!empRes.ok) throw new Error("Failed to fetch employees")

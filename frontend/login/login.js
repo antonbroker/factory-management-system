@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../shared/config"
+
 const form = document.getElementById('login-form')
 
 form.addEventListener('submit', async event => {
@@ -54,7 +56,7 @@ form.addEventListener('submit', async event => {
     // POST - Request to server-side
     try {
         console.log("SENDING:", { username, email })
-        const response = await fetch('http://localhost:3000/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -74,5 +76,4 @@ form.addEventListener('submit', async event => {
     } catch (error) {
         console.error('Error', error)
     }
-
 })

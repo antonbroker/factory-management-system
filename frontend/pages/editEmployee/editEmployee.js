@@ -1,4 +1,6 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
+
 const token = sessionStorage.getItem('token')
 
 if (!token) {
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadEmployeeData(employeeId) {
     try {
-        const response = await fetch(`http://localhost:3000/employees/${employeeId}`, { 
+        const response = await fetch(`${API_BASE_URL}/employees/${employeeId}`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -84,7 +86,7 @@ async function loadEmployeeData(employeeId) {
 
 async function loadDepartmentsForEdit() {
     try {
-        const res = await fetch("http://localhost:3000/departments", { 
+        const res = await fetch(`${API_BASE_URL}/departments`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
         const departments = await res.json()
@@ -117,7 +119,7 @@ async function editEmployee() {
         }
 
         // PUT - request to server
-        const response = await fetch(`http://localhost:3000/employees/${employeeId}`, {
+        const response = await fetch(`${API_BASE_URL}/employees/${employeeId}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -152,7 +154,7 @@ async function deleteEmployee() {
         const employeeId = urlParams.get("id")
 
         // DELETE - request to server
-        const response = await fetch(`http://localhost:3000/employees/${employeeId}`, {
+        const response = await fetch(`${API_BASE_URL}/employees/${employeeId}`, {
             headers: { 'Authorization': `Bearer ${token}` },
             method: 'DELETE'
         })
@@ -179,7 +181,7 @@ async function deleteEmployee() {
 
 async function loadAvailableShifts() {
     try {
-        const res = await fetch("http://localhost:3000/shifts", { 
+        const res = await fetch(`${API_BASE_URL}/shifts`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -214,7 +216,7 @@ async function loadEmployeeShifts() {
         const urlParams = new URLSearchParams(window.location.search)
         const employeeId = urlParams.get("id")
 
-        const response = await fetch("http://localhost:3000/shifts", { 
+        const response = await fetch(`${API_BASE_URL}/shifts`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -258,7 +260,7 @@ async function assignShiftToEmployee() {
         const shiftId = document.getElementById("shift-select").value
 
         // PUT - request to server
-        const response = await fetch(`http://localhost:3000/shifts/${shiftId}`, {
+        const response = await fetch(`${API_BASE_URL}/shifts/${shiftId}`, {
             method: "PUT",
             headers: { 
                 'Authorization': `Bearer ${token}`,  

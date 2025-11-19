@@ -1,4 +1,5 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
 
 const token = sessionStorage.getItem('token')
 
@@ -38,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadDepartments() {
     try {
-        const response = await fetch('http://localhost:3000/departments', {  
+        const response = await fetch(`${API_BASE_URL}/departments`, {  
             headers: { 'Authorization': `Bearer ${token}` } 
         })
         const departments = await response.json()
@@ -59,28 +60,30 @@ async function loadDepartments() {
 
 async function loadEmployees() {
     try {
-        const response = await fetch('http://localhost:3000/employees', {  
+        const response = await fetch(`${API_BASE_URL}/employees`, {  
             headers: { 'Authorization': `Bearer ${token}` } 
         })
         const employees = await response.json()
 
-        const shiftsRes = await fetch('http://localhost:3000/shifts',  {  
+        const shiftsRes = await fetch(`${API_BASE_URL}/shifts`,  {  
             headers: { 'Authorization': `Bearer ${token}` } 
         })
+
         const shifts = await shiftsRes.json()
 
         const shiftsByEmployee = {}
         shifts.forEach(shift => {
-        if (!Array.isArray(shift.employees)) return
+            if (!Array.isArray(shift.employees)) return
 
-            shift.employees.forEach(empId => {
-                const key = empId.toString()
-                if (!shiftsByEmployee[key]) {
-                    shiftsByEmployee[key] = []
-                }
-                shiftsByEmployee[key].push(shift)
+                shift.employees.forEach(empId => {
+                    const key = empId.toString()
+                    if (!shiftsByEmployee[key]) {
+                        shiftsByEmployee[key] = []
+                    }
+                    shiftsByEmployee[key].push(shift)
+            })
         })
-})
+
         const selectedDepartment = document.getElementById("department-filter").value
 
         const tbody = document.querySelector("#employees-table tbody")
@@ -103,7 +106,6 @@ async function loadEmployees() {
                 shiftsHTML = '<span class="no-shifts">No shifts</span>';
             } else {
 
-                // Полный список
                 const allShifts = empShifts.map(shift => {
                     const date = new Date(shift.date).toLocaleDateString('en-GB');
                     return `
@@ -149,7 +151,7 @@ async function loadEmployees() {
 
 async function loadEmployeeShifts() {
     try {
-        const response = await fetch("http://localhost:3000/shifts", {  
+        const response = await fetch(`${API_BASE_URL}/shifts`, {  
             headers: { 'Authorization': `Bearer ${token}` } 
         })
 

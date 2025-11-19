@@ -1,4 +1,6 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
+
 const token = sessionStorage.getItem('token')
 
 if (!token) {
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadDepartmentData(id) {
     try {
-        const response = await fetch(`http://localhost:3000/departments/${id}`, { 
+        const response = await fetch(`${API_BASE_URL}/departments/${id}`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -68,7 +70,7 @@ async function loadDepartmentData(id) {
 
         nameInput.value = departmentData.name
         
-        const employeesResponse = await fetch(`http://localhost:3000/employees`, { 
+        const employeesResponse = await fetch(`${API_BASE_URL}/employees`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
         const employees = await employeesResponse.json()
@@ -97,7 +99,7 @@ async function loadDepartmentData(id) {
 
 async function loadEmployeesInDepartment(departmentId) {
     try {
-        const response = await fetch(`http://localhost:3000/employees`, { 
+        const response = await fetch(`${API_BASE_URL}/employees`, { 
             headers: { 'Authorization': `Bearer ${token}` }   
         })
 
@@ -137,7 +139,7 @@ async function updateDepartment(departmentId) {
             manager : document.getElementById("managerSelect").value
         }
 
-        const response = await fetch(`http://localhost:3000/departments/${departmentId}`, {
+        const response = await fetch(`${API_BASE_URL}/departments/${departmentId}`, {
             method: 'PUT',
             headers: { 
                 'Authorization': `Bearer ${token}`,
@@ -169,7 +171,7 @@ async function updateDepartment(departmentId) {
 
 async function deleteDepartment(departmentId) {
     try {  
-        const response = await fetch(`http://localhost:3000/departments/${departmentId}`, {
+        const response = await fetch(`${API_BASE_URL}/departments/${departmentId}`, {
             headers: { 
                 'Authorization': `Bearer ${token}`
             },
@@ -198,7 +200,7 @@ async function deleteDepartment(departmentId) {
 
 async function loadAvailableEmployees(departmentId) {
     try {
-        const response = await fetch("http://localhost:3000/employees", {  
+        const response = await fetch(`${API_BASE_URL}/employees`, {  
             headers: { 'Authorization': `Bearer ${token}` } 
         })
   
@@ -234,7 +236,7 @@ async function addEmployeeToDepartment(departmentId) {
             return
         }
 
-        const res = await fetch(`http://localhost:3000/employees/${employeeId}`, {
+        const res = await fetch(`${API_BASE_URL}/employees/${employeeId}`, {
             method: "PUT",
             headers: { 
                 'Authorization': `Bearer ${token}`,
@@ -252,7 +254,7 @@ async function addEmployeeToDepartment(departmentId) {
 
         if (!res.ok) {
             alert("Failed to add employee to department")
-        return
+            return
         }
 
         await loadEmployeesInDepartment(departmentId)

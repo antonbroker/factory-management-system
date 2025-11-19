@@ -1,4 +1,5 @@
 import { decodeToken } from '../../shared/utils.js'
+import { API_BASE_URL } from "../shared/config"
 
 const token = sessionStorage.getItem('token')
 
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadUsers() {
     try {
-        const response = await fetch('http://localhost:3000/users', {
+        const response = await fetch(`${API_BASE_URL}/users`, {
             headers: { 'Authorization': `Bearer ${token}` },
         })
   
