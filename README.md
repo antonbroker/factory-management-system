@@ -24,11 +24,11 @@ Frontend:
 ## 🌐 Live Demo
 
 **Backend (Render):**  
-https://factory-backend-2.onrender.com
+- https://factory-backend-2.onrender.com
 
 **Frontend (Netlify or Vercel):**  
-https://splendorous-bavarois-ac9705.netlify.app/
-https://factory-management-system-eight.vercel.app/
+- https://splendorous-bavarois-ac9705.netlify.app/
+- https://factory-management-system-eight.vercel.app/
 
 > ⚠️ Note: The backend is hosted on Render free tier.  
 > The first request after inactivity may take ~30–60 seconds to wake up.
