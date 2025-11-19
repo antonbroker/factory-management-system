@@ -2,7 +2,7 @@ require('dotenv').config(); // get data from ".env"
 const express = require('express')
 const cors = require('cors')
 const { connectDB } = require('./config/db')
-const PORT = 3000
+
 
 const app = express()
 
@@ -28,6 +28,9 @@ app.use('/departments', checkUserActions, departmentsRouter)
 app.use('/shifts', checkUserActions, shiftsRouter)
 app.use('/users', usersRouter)
 app.use('/useAI', checkUserActions, useAIRouter)
+
+// Port
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)
