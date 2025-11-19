@@ -21,6 +21,24 @@ Frontend:
 - HTML + CSS
 - Responsive UI
 
+## 🌐 Live Demo
+
+**Backend (Render):**  
+https://factory-backend-2.onrender.com
+
+**Frontend (Netlify):**  
+https://splendorous-bavarois-ac9705.netlify.app/
+
+> ⚠️ Note: The backend is hosted on Render free tier.  
+> The first request after inactivity may take ~30–60 seconds to wake up.
+
+### 🔐 Test Login
+
+Use the following user or another from *https://jsonplaceholder.typicode.com/users* (external API for login):
+
+- Username: `Bret`  
+- Email: `Sincere@april.biz`
+
 
 ## Backend Architecture Overview
 ```txt
