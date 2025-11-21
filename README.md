@@ -1,7 +1,7 @@
 # Factory Management System
 
-Full-stack application for managing employees, departments, and shifts, 
-including daily activity limits and optional AI-powered shift schedule generation.
+Full-stack application for managing employees, departments, shifts and users, 
+including daily activity limits of users and optional AI-powered shift schedule generation.
 
 ## Overview
 The production management system is a full-featured CRUD + AI project that simulates a real factory management system:
