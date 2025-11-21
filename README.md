@@ -12,7 +12,7 @@ and integration with OpenAI for scheduling.
 Backend:
 - Node.js + Express
 - MongoDB + Mongoose
-- Layered Architecture (Controllers → Services → Repositories → Models)
+- Layered Architecture (Routers → Controllers → Services → Repositories → Models)
 - JWT + middleware-based authorization
 - JSONPlaceholder API (login)
 
