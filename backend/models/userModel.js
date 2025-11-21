@@ -2,8 +2,8 @@ const mongoose = require("mongoose")
 
 const schema = new mongoose.Schema({
     fullName : String,
-    username: String,
-    email: String,
+    username: { type: String, unique: true },
+    email:  { type: String, unique: true },
     numOfActions: {
         type: Number,
         default: 10

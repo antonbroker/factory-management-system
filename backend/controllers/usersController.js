@@ -34,11 +34,7 @@ const getUserById = async (req,res) => {
 const addUser = async (req,res) => {
     try {
         const obj = req.body
-        const newUser = await usersService.addUser(obj)
-
-        if (!newUser) {
-            return res.status(400).json({ message: "has not been created" })
-        }
+        const newUser = await usersService.checkUserExists(obj)
 
         res.status(201).json(newUser)
 
