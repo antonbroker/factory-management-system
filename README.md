@@ -1,7 +1,8 @@
 # Factory Management System
 
-Full-stack application for managing employees, departments, and shifts, 
-including daily activity limits and optional AI-powered shift schedule generation.
+Full-stack web application for managing employees, departments, and shifts in a factory environment. 
+The project simulates a real production management system with authentication, action limits, 
+and optional AI-powered shift schedule generation.
 
 ## Overview
 The production management system is a full-featured CRUD + AI project that simulates a real factory management system:
@@ -13,12 +14,17 @@ Backend:
 - Node.js + Express
 - MongoDB + Mongoose
 - Layered Architecture (Controllers → Services → Repositories → Models)
-- JWT + middleware-based authorization
-- JSONPlaceholder API (login)
+- JWT authentication + middleware-based authorization
+- OpenAI API integration
+- JSONPlaceholder API (login simulation)
 
 Frontend:
-- Vanilla JavaScript
-- HTML + CSS
+- React
+- TypeScript
+- Vite
+- Modular component-based architecture
+- Protected routes
+- Centralized API layer
 - Responsive UI
 
 ## 🌐 Live Demo
@@ -26,12 +32,9 @@ Frontend:
 **Backend (Render):**  
 - https://factory-backend-2.onrender.com
 
-**Frontend (Netlify or Vercel):**  
-- https://splendorous-bavarois-ac9705.netlify.app/
-- https://factory-management-system-eight.vercel.app/
+**Frontend (Vercel):**  
+- https://factory-management-system-adfjost8g-anton-iosifovs-projects.vercel.app/
 
-> ⚠️ Note: The backend is hosted on Render free tier.  
-> The first request after inactivity may take ~30–60 seconds to wake up.
 
 ### 🔐 Test Login
 
@@ -47,112 +50,39 @@ backend/
 │── app.js                     # Main Express application
 │── package.json
 │── package-lock.json
-│── .env
 │
 ├── config/
 │   └── db.js                  # MongoDB connection setup
 │
-├── controllers/               # Handles request/response logic
-│   ├── loginController.js
-│   ├── employeesController.js
-│   ├── departmentsController.js
-│   ├── shiftsController.js
-│   ├── usersController.js
-│   └── useAIController.js
-│
+├── controllers/               # Request / response handling
 ├── services/                  # Business logic layer
-│   ├── loginService.js
-│   ├── employeesService.js
-│   ├── departmentsService.js
-│   ├── shiftsService.js
-│   ├── usersService.js
-│   └── actionsService.js
-│
-├── repositories/              # Database access layer (Mongoose queries)
-│   ├── employeesRepo.js
-│   ├── departmentsRepo.js
-│   ├── shiftsRepo.js
-│   ├── usersRepo.js
-│
+├── repositories/              # Database access layer
 ├── models/                    # Mongoose models
-│   ├── employeeModel.js
-│   ├── departmentModel.js
-│   ├── shiftModel.js
-│   └── userModel.js
-│
-├── routers/                   # Express route definitions
-│   ├── loginRouter.js
-│   ├── employeesRouter.js
-│   ├── departmentsRouter.js
-│   ├── shiftsRouter.js
-│   ├── usersRouter.js
-│   └── useAIRouter.js
-│
-├── middlewares/
-│   └── checkUserActions.js    # JWT validator + daily request limiter
-│
-└── data/
-    ├── actions.json           # Daily logs of user actions
-    └── weekly_schedule.xlsx   # Auto-generated Excel from AI
+├── routers/                   # Express routers
+├── middlewares/               # Auth & daily action limiter
+└── data/                      # Action logs & AI output
+
 ```
 
 ## Frontend Architecture Overview
 ```txt
-├───index.html
-│
-├───login
-│       
-│       login.css
-│       login.js
-│
-├───pages
-│   ├───addDepartment
-│   │       addDepartment.css
-│   │       addDepartment.html
-│   │       addDepartment.js
-│   │
-│   ├───addEmployee
-│   │       addEmployee.css
-│   │       addEmployee.html
-│   │       addEmployee.js
-│   │
-│   ├───departments
-│   │       departments.css
-│   │       departments.html
-│   │       departments.js
-│   │
-│   ├───editDepartment
-│   │       editDepartment.css
-│   │       editDepartment.html
-│   │       editDepartment.js
-│   │
-│   ├───editEmployee
-│   │       editEmployee.css
-│   │       editEmployee.html
-│   │       editEmployee.js
-│   │
-│   ├───employees
-│   │       employees.css
-│   │       employees.html
-│   │       employees.js
-│   │
-│   ├───shifts
-│   │       shifts.css
-│   │       shifts.html
-│   │       shifts.js
-│   │
-│   └───users
-│           users.css
-│           users.html
-│           users.js
-│
-└───shared
-        ai-button.js
-        styles.css
-        utils.js
+frontend/
+├── src/
+│   ├── api/            # API layer
+│   ├── components/     # Reusable components
+│   ├── layouts/        # Protected layouts
+│   ├── pages/          # Feature pages
+│   ├── types/          # TypeScript models
+│   ├── utils/          # Auth & helpers
+│   ├── App.tsx
+│   └── main.tsx
+├── index.html
+└── package.json
+
 ```
 
 ## How to Run Locally
+### Backend:
 1. Install backend dependencies:
 - npm install
 
@@ -166,7 +96,12 @@ backend/
 - By default the server runs on http://localhost:3000.
 
 4. Open frontend:
-- frontend/login/index.html
+- cd frontend
+- npm install
+- npm run dev
+
+5. Create .env file:
+- VITE_API_BASE_URL=http://localhost:3000
 
 
 ## Features
@@ -186,6 +121,33 @@ Main Features:
 - Shifts: create shift, assign employee to shift, visualize with badges.
 - AI Schedule Generator. AI button for future week schedule generation.
 
+AI Schedule Generator (Optional)
+- Generates weekly shift schedule using OpenAI
+- Produces downloadable Excel file
+- Disabled automatically if API key is missing
+
+### AI Schedule Generator (OpenAI):
+This project includes an AI feature that automatically generates a weekly shift schedule
+for all employees based on their departments and availability.
+
+The feature uses the OpenAI API.
+- Uses OpenAI API to generate weekly schedule.
+- Requires OPENAI_API_KEY in .env.
+
+### How it works
+- The frontend has an **AI Schedule** button.
+- When clicked, the client sends a request to `/useAI/generateSchedule`.
+- The backend:
+  - collects employee + shift data
+  - sends a structured prompt to OpenAI
+  - receives a generated weekly plan
+  - returns the result to the frontend
+- The result is formatted and can be downloaded as an Excel file.
+
+To use the AI feature, the user must provide:
+- OPENAI_API_KEY=your-openai-api-key
+- Add this to your `.env` file.
+- Without this key, the AI feature will be disabled (other functionality works normally).
 
 ## REST API Documentation:
 **Authentication**
@@ -257,27 +219,3 @@ Main Features:
 
 ### AI Schedule Generator
 ![AI](./screenshots/ai_schedule.png)
-
-
-### AI Schedule Generator (OpenAI):
-This project includes an AI feature that automatically generates a weekly shift schedule
-for all employees based on their departments and availability.
-
-The feature uses the OpenAI API.
-- Uses OpenAI API to generate weekly schedule.
-- Requires OPENAI_API_KEY in .env.
-
-### How it works
-- The frontend has an **AI Schedule** button.
-- When clicked, the client sends a request to `/useAI/generateSchedule`.
-- The backend:
-  - collects employee + shift data
-  - sends a structured prompt to OpenAI
-  - receives a generated weekly plan
-  - returns the result to the frontend
-- The result is formatted and can be downloaded as an Excel file.
-
-To use the AI feature, the user must provide:
-- OPENAI_API_KEY=your-openai-api-key
-- Add this to your `.env` file.
-- Without this key, the AI feature will be disabled (other functionality works normally).
