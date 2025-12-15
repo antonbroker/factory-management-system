@@ -1,0 +1,135 @@
+/* PAGE WRAPPER */
+.add-department-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* OVERLAY */
+.add-department-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* MAIN CONTAINER (твой .container) */
+.add-department-page .container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1;
+    border-top: 4px solid #ff6b35;
+}
+
+/* TITLE */
+.add-department-page h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.add-department-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ff6b35;
+}
+
+/* FORM */
+#add-department-form {
+    margin-top: 25px;
+}
+
+/* FORM GROUP */
+.add-department-page .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 6px;
+}
+
+/* LABEL */
+.add-department-page label {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* INPUT + SELECT */
+.add-department-page input,
+.add-department-page select {
+    padding: 12px 15px;
+    border: 2px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f8f9fa;
+    color: #2c3e50;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.add-department-page input:focus,
+.add-department-page select:focus {
+    border-color: #ff6b35;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+}
+
+/* BUTTON (ты не используешь id, поэтому стилизуем по тегу внутри wrapper) */
+.add-department-page button {
+    width: 100%;
+    background: #ff6b35;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.add-department-page button:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .add-department-page .container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .add-department-page button {
+        width: 100%;
+    }
+}

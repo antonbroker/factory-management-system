@@ -1,0 +1,293 @@
+/* EMPLOYEES PAGE WRAPPER */
+.employees-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND OVERLAY */
+.employees-page::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* MAIN CONTAINER */
+.employees-page .page-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1;
+    border-top: 4px solid #ff6b35;
+}
+
+/* TITLE */
+.employees-page h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.employees-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ff6b35;
+}
+
+/* ERROR MESSAGE */
+.employees-page #error-message {
+    background: #e74c3c;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.4s ease;
+    pointer-events: none;
+    max-height: 0;
+    overflow: hidden;
+    border-left: 4px solid #c0392b;
+}
+
+.employees-page #error-message:not(:empty) {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 100px;
+    pointer-events: auto;
+}
+
+/* BUTTON: Add Employee */
+.employees-page #add-employee-button {
+    background: #ff6b35;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    float: right;
+    margin-bottom: 25px;
+}
+
+.employees-page #add-employee-button:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+/* FILTER */
+.employees-page label {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.employees-page #department-filter {
+    padding: 10px 15px;
+    
+    border: 2px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #f8f9fa;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.employees-page #department-filter:focus {
+    border-color: #ff6b35;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+/* TABLE */
+.employees-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0px;
+    background: white;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed;
+}
+
+.employees-page thead {
+    background: #2c3e50;
+    color: white;
+}
+
+.employees-page thead th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+.employees-page tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.employees-page tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+}
+
+.employees-page tbody td {
+    padding: 16px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.employees-page tbody td:first-child {
+    font-weight: 600;
+}
+
+/* TABLE COLUMN WIDTHS */
+.employees-page #employees-table th:nth-child(1),
+.employees-page #employees-table td:nth-child(1) {
+    width: 25%;
+}
+
+.employees-page #employees-table th:nth-child(2),
+.employees-page #employees-table td:nth-child(2) {
+    width: 25%;
+}
+
+.employees-page #employees-table th:nth-child(3),
+.employees-page #employees-table td:nth-child(3) {
+    width: 50%;
+    white-space: normal;
+}
+
+/* LINKS */
+.employees-page .dep-link,
+.employees-page .emp-link {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.employees-page .dep-link:hover,
+.employees-page .emp-link:hover {
+    color: #ff6b35;
+    text-decoration: underline;
+}
+
+/* SHIFTS */
+.employees-page .shifts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 10px;
+}
+
+.employees-page .shift-badge {
+    display: inline-block;
+    background: rgba(44, 62, 80, 0.15);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #2c3e50;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin: 3px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.employees-page .shift-badge:hover {
+    transform: scale(1.08);
+}
+
+.employees-page .no-shifts {
+    color: #999;
+    font-style: italic;
+}
+
+/* SHOW ALL BUTTON */
+.employees-page .show-all-btn {
+    margin-top: 4px;
+    padding: 4px 10px;
+    background: rgba(44, 62, 80, 0.15);
+    color: #2c3e50;
+    border: 1px solid rgba(44, 62, 80, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    font-size: 12px;
+    width: fit-content;
+    transition: 0.3s ease;
+}
+
+.employees-page .show-all-btn:hover {
+    background: rgba(44, 62, 80, 0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .employees-page .page-container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .employees-page table {
+        font-size: 12px;
+    }
+
+    .employees-page #add-employee-button {
+        float: none;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .employees-page .shifts-grid {
+        grid-template-columns: 1fr;
+    }
+}

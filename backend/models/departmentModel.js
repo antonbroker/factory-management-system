@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
         type : String,
 
         // validation:
-        required: [true, 'Department name is required'], 
+        required: [true, 'Department name is required'],
         trim: true,
         minlength: [2, 'Department name must be at least 2 characters'], 
         maxlength: [30, 'Department name must be less than 30 characters']

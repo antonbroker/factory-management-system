@@ -1,0 +1,178 @@
+/* PAGE WRAPPER */
+.departments-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* OVERLAY */
+.departments-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* PAGE CONTAINER */
+.departments-page .page-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    border-top: 4px solid #ff6b35;
+    position: relative;
+    z-index: 1;
+}
+
+/* TITLE */
+.departments-page h2 {
+    text-align: center;
+    font-size: 2em;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    color: #2c3e50;
+    position: relative;
+    padding-bottom: 15px;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+.departments-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ff6b35;
+}
+
+/* ADD BUTTON */
+.departments-page #add-department-button {
+    float: right;
+    margin-bottom: 25px;
+    background: #ff6b35;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.departments-page #add-department-button:hover {
+    background: #e55a2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+}
+
+/* TABLE */
+.departments-page table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.departments-page thead {
+    background: #2c3e50;
+    color: white;
+}
+
+.departments-page thead th {
+    text-align: left;
+    padding: 16px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.departments-page tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.departments-page tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+}
+
+
+.departments-page tbody td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+/* LINKS */
+.departments-page .emp-link,
+.departments-page .dep-link {
+    color: #2c3e50;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.departments-page .emp-link:hover,
+.departments-page .dep-link:hover {
+    color: #ff6b35;
+    text-decoration: underline;
+}
+
+/* EMPLOYEES INLINE (KEY PART) */
+.departments-page .employees-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.departments-page .employee-badge {
+    background: rgba(44, 62, 80, 0.15);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: 0.2s ease;
+}
+
+.departments-page .employee-badge:hover {
+    transform: scale(1.08);
+    color: #ff6b35;
+}
+
+/* EMPTY STATE */
+.departments-page .no-employees {
+    color: #999;
+    font-style: italic;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px) {
+    .departments-page .page-container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .departments-page #add-department-button {
+        float: none;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+}

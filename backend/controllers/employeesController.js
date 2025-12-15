@@ -1,4 +1,5 @@
 const employeesService = require('../services/employeesService')
+const Shift = require("../models/shiftModel")
 
 // Get all employees
 const getAllEmployees = async (req, res) => {
@@ -76,6 +77,11 @@ const deleteEmployee = async (req, res) => {
         if (!deletedEmployee) {
             return res.status(404).json({ message: "Employee not found" })
         }
+
+        await Shift.updateMany(
+            { employees: id },        
+            { $pull: { employees: id } }
+        )
 
         return res.status(200).json({ message: "Employee deleted successfully", deletedEmployee })
 

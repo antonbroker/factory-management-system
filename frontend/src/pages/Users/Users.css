@@ -1,0 +1,143 @@
+/* USERS PAGE WRAPPER */
+.users-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND OVERLAY */
+.users-page::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 0;
+}
+
+/* MAIN CONTAINER */
+.users-page .page-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 1;
+    border-top: 4px solid #ff6b35;
+}
+
+/* TITLE */
+.users-page h2 {
+    color: #2c3e50;
+    font-size: 2em;
+    margin-bottom: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.users-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #ff6b35;
+}
+
+/* USERS SECTION */
+.users-page #users-section {
+    margin-top: 20px;
+}
+
+/* TABLE */
+.users-page table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.users-page thead {
+    background: #2c3e50;
+    color: white;
+}
+
+.users-page thead th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+.users-page tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.users-page tbody tr:hover {
+    background: #f8f9fa;
+    transform: scale(1.01);
+}
+
+.users-page tbody td {
+    padding: 16px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.users-page tbody td:first-child {
+    font-weight: 600;
+}
+
+/* TABLE COLUMN WIDTHS */
+.users-page #users-table th:nth-child(1),
+.users-page #users-table td:nth-child(1) {
+    width: 40%;
+}
+
+.users-page #users-table th:nth-child(2),
+.users-page #users-table td:nth-child(2) {
+    width: 30%;
+}
+
+.users-page #users-table th:nth-child(3),
+.users-page #users-table td:nth-child(3) {
+    width: 30%;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .users-page .page-container {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .users-page table {
+        font-size: 12px;
+    }
+
+    .users-page thead th,
+    .users-page tbody td {
+        padding: 12px 8px;
+    }
+}

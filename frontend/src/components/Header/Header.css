@@ -1,0 +1,130 @@
+/* HEADER */
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 4px solid #ff6b35;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.nav-links {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
+.header-buttons {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    align-items: center;
+}
+
+/* NAV BUTTONS */
+.nav-links button {
+    background: transparent;
+    color: #2c3e50;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links button::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff6b35;
+    transition: width 0.3s ease;
+}
+
+.nav-links button:hover {
+    color: #ff6b35;
+}
+
+.nav-links button:hover::after {
+    width: 100%;
+}
+
+/* LOGOUT BUTTON */
+#logout-button {
+    background: transparent;
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+#logout-button:hover {
+    background: rgba(231, 76, 60, 0.1);
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+    box-shadow:
+        0 0 10px rgba(231, 76, 60, 0.5),
+        0 0 20px rgba(231, 76, 60, 0.3),
+        inset 0 0 10px rgba(231, 76, 60, 0.2);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .left-section,
+    .header-buttons {
+        justify-content: center;
+    }
+
+    .nav-links {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links button {
+        font-size: 14px;
+    }
+
+    #logout-button {
+        padding: 8px 20px;
+        font-size: 12px;
+    }
+}

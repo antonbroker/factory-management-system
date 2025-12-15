@@ -1,51 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="./login/login.css">
-        <title>Login</title>
-    </head>
-    
-    <body>
-        <!-- Background gears -->
-        <div class="gear gear-1"></div>
-        <div class="gear gear-2"></div>
-        <div class="gear gear-3"></div>
+  
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Factory</title>
+  </head>
 
-        <!-- Particles -->
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-
-        <main>
-            <p id="error-message"></p>
-
-            <h1> Factory </h1>
-
-            <form id="login-form" novalidate>
-                <input name="username" type="text" placeholder="Username">
-                <input name="email" type="email" placeholder="Email">
-                <button type="submit"> LOGIN </button>
-            </form>
-
-            <div class="status-bar">
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span> SYSTEM </span>
-                </div>
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span> DATABASE </span>
-                </div>
-                <div class="status-item">
-                    <div class="status-dot"></div>
-                    <span> SECURE </span>
-                </div>
-            </div>
-        </main>
-
-        <script type="module" src="./login/login.js"></script>
-    </body>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
